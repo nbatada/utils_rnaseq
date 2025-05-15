@@ -48,11 +48,12 @@ def plot_tpm_histograms(tpm_df, sampleinfo=None, facet_col='condition', sample_i
         plot_data = pd.merge(tpm_df_melted, sampleinfo, on=sample_id_colname, how='left')
 
     plot = (
-        p9.ggplot(plot_data, p9.aes(x='log10_TPM_plus_1', fill=facet_col)) # Use facet_col for fill
+        p9.ggplot(plot_data, p9.aes(x='TPM', fill=facet_col)) # Use facet_col for fill
         + p9.geom_histogram(bins=100) # Removed fill from geom_histogram
+        + p9.scale_x_log10()
         + p9.facet_wrap(f'~ {sample_id_colname} + {facet_col}', scales='fixed_y')
-        + p9.labs(title='Histogram of log10(TPM + 1) per Sample',
-                  x='log10(TPM + 1)',
+        + p9.labs(title='',
+                  x='TPM',
                   y='Frequency')
         + p9.theme(figure_size=(10, 10))
     )
